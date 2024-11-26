@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Translate 테스트</title>
+    <style>
+        #a {
+            height: 100px;
+            width: 100px;
+            background-color: red;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="a"></div>
+
+    <script>
+        const a = document.getElementById("a");
+        let xPosition = 0; // X축 위치
+        let yPosition = 0; // Y축 위치
+        const step = 10;   // X축 이동 거리
+
+        function move() {
+            const rect = a.getBoundingClientRect(); // 요소의 현재 위치와 크기
+            const r = Math.floor(Math.random() * 255);
+            const g = Math.floor(Math.random() * 255);
+            const b = Math.floor(Math.random() * 255);
+
+            // 브라우저 경계 확인: 오른쪽 벽에 닿았을 때
+            if (rect.right + step > window.innerWidth) {
+                xPosition = 0; // X축 초기화
+                yPosition += rect.height; // Y축은 요소의 높이만큼 증가
+
+                // 브라우저 아래쪽 경계를 초과하면 멈춤
+                if (yPosition + rect.height > window.innerHeight) {
+                    alert("더 이상 움직일 수 없습니다!"); // 알림 표시
+                    return;
+                }
+            } else {
+                xPosition += step; // X축 이동
+            }
+
+            // 배경색 변경 (올바른 RGB 형식 적용)
+            a.style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
+
+            // 이동 적용
+            a.style.transform = `translate(${xPosition}px, ${yPosition}px)`;
+        }
+
+        function startMoving() {
+            setInterval(move,50);
+        }
+
+
+        // 클릭 시 이동 실행
+        a.addEventListener("click", startMoving);
+
+    </script>
+</body>
+
+</html>
