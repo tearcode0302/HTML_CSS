@@ -42,7 +42,6 @@
             }
 
 
-
         </style>
     </head>
     <body>
@@ -52,6 +51,8 @@
         <div id="container2">
             <button id="rotation">회전 버튼 On</button>
             <button id="translate">이동 버튼 On</button>
+            <button id="animate_translateX">x축 애니메이션 이동 버튼 On</button>
+
         </div>
     </body>
     <script>
@@ -59,6 +60,11 @@
         let rotationBtn = document.getElementById('rotation');
         let timerId = null;
         let angle = 0; // 현재 회전 각도를 저장
+
+        let translateBtn = document.getElementById('translate');
+        let animate_translateX = document.getElementById('animate_translateX');
+
+        let animation;
 
         function startRotate() {
             // 배경색 변경
@@ -80,6 +86,40 @@
             rotationBtn.textContent = '회전 버튼 On';
         }
 
+        //////////////////////////////////////////
+        function startTranslateX() {
+            a.style.transform = `translateX(500px)`
+            translateBtn.textContent = '이동 버튼 Off'
+        }
+
+        function stopTranslateX() {
+            a.style.transform = `translateX(0px)`
+            translateBtn.textContent = '이동 버튼 on'
+        }
+
+        ///////////////////////////////////////////////
+
+        function startAnimateTranslateX() {
+            animation = a.animate([
+                {left: "0%", transform: "translateX(0px)"},
+                {left: "50%", transform: "translateX(500px)"},
+            ], {
+                duration: 800,
+                fill: "forwards"
+            });
+            animate_translateX.textContent = 'x축 애니메이션 이동 버튼 Off'
+        }
+
+        function stopAnimateTranslateX() {
+            if (animation) {
+                animation.cancel(); // 애니메이션 중지
+                animation = null; // Animation 객체 초기화
+            }
+            animate_translateX.textContent = 'x축 애니메이션 이동 버튼 On';
+            a.style.transform = 'translateX(0px)'; // 초기 위치로 복원
+        }
+
+        //////////////////////////////////////////////////
         function changeColor() {
             const r = Math.floor(Math.random() * 255);
             const g = Math.floor(Math.random() * 255);
@@ -96,5 +136,23 @@
                 stopRotate();
             }
         });
+
+        translateBtn.addEventListener('click', function () {
+            if (translateBtn.textContent === '이동 버튼 on') {
+                startTranslateX()
+            } else {
+                stopTranslateX();
+            }
+        });
+
+        animate_translateX.addEventListener('click', function () {
+            if (animate_translateX.textContent === 'x축 애니메이션 이동 버튼 On') {
+                startAnimateTranslateX()
+            } else {
+                stopAnimateTranslateX()
+            }
+        });
+
+
     </script>
 </html>
