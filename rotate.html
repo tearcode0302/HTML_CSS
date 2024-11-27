@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Rotate</title>
+        <style>
+            #a {
+                display: flex;
+                width: 100px;
+                height: 100px;
+                background-color: red;
+                justify-content: center;
+                align-items: center;
+                flex-direction: column;
+            }
+
+            body {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                flex-direction: column;
+                height: 100vh;
+            }
+
+            #container {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                background-color: gold;
+                width: 100vw;
+                height: 50vh;
+                border: 2px solid black;
+            }
+
+            #container2 {
+                background-color: aquamarine;
+                width: 100vw;
+                height: 50vh;
+                border: 2px solid black;
+            }
+
+
+
+        </style>
+    </head>
+    <body>
+        <div id="container">
+            <div id="a"></div>
+        </div>
+        <div id="container2">
+            <button id="rotation">회전 버튼 On</button>
+            <button id="translate">이동 버튼 On</button>
+        </div>
+    </body>
+    <script>
+        let a = document.getElementById('a');
+        let rotationBtn = document.getElementById('rotation');
+        let timerId = null;
+        let angle = 0; // 현재 회전 각도를 저장
+
+        function startRotate() {
+            // 배경색 변경
+            a.style.backgroundColor = changeColor();
+
+            // 회전 각도 업데이트
+            angle += 5; // -5도씩 회전
+            a.style.transform = `rotate(${angle}deg)`;
+
+            // 버튼 텍스트 업데이트
+            rotationBtn.textContent = '회전 버튼 Off';
+        }
+
+        function stopRotate() {
+            clearInterval(timerId); // 타이머 중지
+            timerId = null; // 타이머 ID 초기화
+            a.style.transform = `rotate(0deg)`
+            a.style.backgroundColor = 'red';
+            rotationBtn.textContent = '회전 버튼 On';
+        }
+
+        function changeColor() {
+            const r = Math.floor(Math.random() * 255);
+            const g = Math.floor(Math.random() * 255);
+            const b = Math.floor(Math.random() * 255);
+            return `rgb(${r},${g},${b})`;
+        }
+
+        rotationBtn.addEventListener('click', function () {
+            if (timerId === null) {
+                // 타이머가 실행 중이 아니면 시작
+                timerId = setInterval(startRotate, 60);
+            } else {
+                // 타이머가 실행 중이면 중지
+                stopRotate();
+            }
+        });
+    </script>
+</html>
