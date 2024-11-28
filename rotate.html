@@ -52,6 +52,9 @@
             <button id="rotation">회전 버튼 On</button>
             <button id="translate">이동 버튼 On</button>
             <button id="animate_translateX">x축 애니메이션 이동 버튼 On</button>
+            <button id="flicker_button">점등 효과 버튼 On</button>
+            <button id="flicker_button2">반복 점등 버튼 On</button>
+            <button id="makeCircleBtn">원으로 만들기 On</button>
 
         </div>
     </body>
@@ -63,8 +66,13 @@
 
         let translateBtn = document.getElementById('translate');
         let animate_translateX = document.getElementById('animate_translateX');
-
         let animation;
+
+        let flickerBtn = document.getElementById('flicker_button');
+        let flickerBtn2 = document.getElementById('flicker_button2');
+
+        let makeCircleBtn = document.getElementById("makeCircleBtn");
+
 
         function startRotate() {
             // 배경색 변경
@@ -120,6 +128,42 @@
         }
 
         //////////////////////////////////////////////////
+
+        function startFlicker() {
+            a.style.display = 'none';
+            flickerBtn.textContent = '점등 효과 버튼 Off';
+        }
+
+        function stopFlicker() {
+            a.style.display = 'block';
+            flickerBtn.textContent = '점등 효과 버튼 On';
+        }
+
+        ///////////////////////////////////////////////////
+        function startFlicker2() {
+            a.style.display === "flex" ? a.style.display = 'none' : a.style.display = 'flex';
+            flickerBtn2.textContent = '반복 점등 버튼 Off';
+        }
+
+        function stopFlicker2() {
+            clearInterval(timerId);
+            timerId = null;
+            a.style.display = 'flex';
+            flickerBtn2.textContent = '반복 점등 버튼 On';
+        }
+
+        function makeCircle() {
+            a.style.borderRadius = '50%';
+            makeCircleBtn.textContent = '원으로 만들기 Off';
+        }
+
+        function makeDiv() {
+            a.style.borderRadius = '0%';
+            makeCircleBtn.textContent = '원으로 만들기 On';
+        }
+
+
+        ///////////////////////////////////////////////////
         function changeColor() {
             const r = Math.floor(Math.random() * 255);
             const g = Math.floor(Math.random() * 255);
@@ -127,6 +171,8 @@
             return `rgb(${r},${g},${b})`;
         }
 
+
+        ////////✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨//////////
         rotationBtn.addEventListener('click', function () {
             if (timerId === null) {
                 // 타이머가 실행 중이 아니면 시작
@@ -153,6 +199,32 @@
             }
         });
 
+
+        flickerBtn.addEventListener('click', function() {
+            if (flickerBtn.textContent === '점등 효과 버튼 On') {
+                startFlicker();
+            } else {
+                stopFlicker();
+            }
+        })
+
+        flickerBtn2.addEventListener('click', function () {
+            if (timerId === null) {
+                // 타이머가 실행 중이 아니면 시작
+                timerId = setInterval(startFlicker2, 100);
+            } else {
+                // 타이머가 실행 중이면 중지
+                stopFlicker2();
+            }
+        });
+
+        makeCircleBtn.addEventListener('click', function () {
+            if (makeCircleBtn.textContent === '원으로 만들기 On') {
+                makeCircle()
+            } else {
+                makeDiv()
+            }
+        })
 
     </script>
 </html>
